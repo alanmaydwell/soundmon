@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-
 """
 Measure audio level for period of time
 
@@ -17,6 +16,7 @@ import pyaudio
 import audioop
 import time
 import matplotlib.pyplot as plt
+import os
 
 
 def audio_level_monitor(duration=20, chunk=1024, rate=44100, bodge=True):
@@ -50,9 +50,9 @@ def audio_level_monitor(duration=20, chunk=1024, rate=44100, bodge=True):
     audio.terminate()
     return results
 
+
 def graph(data, title="Graph"):
     """Plot a graph of the data"""
-    time.strftime("%d/%m/%Y %H:%M:%S")
     plt.figure(figsize=(7, 6))
     plt.title(title)
     plt.plot(data.keys(), data.values())
@@ -84,12 +84,26 @@ def import_data(filename):
     return data, title
 
 
+def display_graphs_from_files():
+    """Display graphs from all the existing tsv files"""
+    filenames = os.listdir()
+    tsv_filenames = [f for f in filenames if f.endswith(".tsv")]
+    for tsv_filename in tsv_filenames:
+        print(tsv_filename)
+        data, heading = import_data(tsv_filename)
+        graph(data, heading)
+
 
 if __name__ == "__main__":
+    duration = 20
     date_time = time.strftime("%d/%m/%Y %H:%M:%S")
     filename = time.strftime("sounds_%Y.%m.%d_[%H.%M.%S].tsv")
-    results = audio_level_monitor(10)
-    graph(results, title=date_time)
+    results = audio_level_monitor(duration)
+    #graph(results, title=date_time)
     export_data(results, filename=filename, heading=date_time)
     
     #data, title = import_data("sounds_2020.08.23_[10.56.44].tsv")
+    #graph(data, title)
+    
+    #Show all graphs
+    display_graphs_from_files()
