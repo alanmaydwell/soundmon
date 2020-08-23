@@ -1,4 +1,8 @@
-#SOUNDMON.PY
+# SOUNDMON.PY
+
+A simple tool that measures microphone audio level for a period. Created to
+help assess state of heating boiler but noise levels were too high for anything useful!
+
 
 - Measures audio levels for a fixed duration then captures the results.    
 - Has simple graph creation using matplotlib
